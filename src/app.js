@@ -1,10 +1,17 @@
 const express=require('express');
 const app=express();
 
-app.get('/user/:userId',(req,res)=>{
-    console.log(req.params);
-    res.send("user accessed")
-})
+app.use('/user',(req,res,next)=>{
+    //console.log(req.params);
+    next();
+    res.send("user accessed 1")
+    
+},
+(req,res)=>{
+    res.send("user accessed 2")
+}
+
+)
 
 
 
