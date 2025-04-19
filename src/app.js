@@ -20,6 +20,17 @@ app.post('/signup',async(req,res)=>{
     res.send("user added")
 })
 
+app.get('/feed',async(req,res)=>{
+    try{
+        const users=await User.find({});
+       //console.log(user);
+        res.send(users)
+    }catch(err){
+        console.log(err);
+    }
+
+})
+
 
 connectDB().then(()=>{
     console.log("db connected succesfully")
