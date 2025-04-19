@@ -2,7 +2,7 @@ const express=require('express');
 const connectDB=require('./config/database');
 const app=express();
 const User=require('./models/user')
-
+app.use(express.json());
 
 app.post('/signup',async(req,res)=>{
  
@@ -12,14 +12,9 @@ app.post('/signup',async(req,res)=>{
         emailId:"rish@gmail.com",
         password:"rish123"
     });*/
-    const {firstName,lastName,emailId,password}=req.body;
-    console.log("not destruct")
-    const user=new User({
-        firstName,
-        lastName,
-        emailId,
-        password
-    })
+  
+    
+    const user=new User(req.body);
    await  user.save();
     console.log(user);
     res.send("user added")
