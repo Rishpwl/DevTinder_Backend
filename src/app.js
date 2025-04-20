@@ -32,6 +32,40 @@ app.get('/feed',async(req,res)=>{
 })
 
 
+app.delete('/user',async(req,res)=>{
+    try{
+        const userId=req.body.userId;
+        const deleteuser=await User.findByIdAndDelete(userId);
+        res.send("user deleted");
+    }catch(err){
+        console.log(err);
+    }
+
+})
+
+app.patch('/user/:userId',async(req,res)=>{
+    const userId=req.params.userId;
+const data=req.body;
+
+    try{
+
+const Allowed_Updatees=["photoUrl","about","gender","age","skills"];
+
+const isUpdatedAllowed=Object.keys(data).every((k)=>
+Allowed_Updatees.includes(k));
+
+if(!isUpdatedAllowed){
+    throw new Error("update not allowed");
+}
+
+const updateUser=await User.findByIdAndUpdate({_id:userId},data,{runValidators:true});
+console.log(updateUser);
+res.send('user updated successfully');
+    }catch(err){
+       console.log(err);
+    }
+})
+
 connectDB().then(()=>{
     console.log("db connected succesfully")
     app.listen(3000,()=>{
